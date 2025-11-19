@@ -35,22 +35,11 @@ pool:
 variables:
   subscriptionId: "0ac447d7-fbc3-4d3d-84d4-37bb9a71e089"
   resourceGroupName: "snapshot-rg"
-  location: "swedencentral"
-  osDiskName: "easec-vm_OsDisk_1_man"
-  dataDiskName: "easec-vm_DataDisk_1_man"
-  diskSizeOs: 128
-  diskSizeData: 40
-  vhdUriOS: "https://snapshottestsa.blob.core.windows.net/snapshot/easec-vm_OsDisk_1_Page_snap.vhd"
-  vhdUriData: "https://snapshottestsa.blob.core.windows.net/snapshot/easec-vm_DataDisk_1_Page_snap.vhd"
-  storageType: "Premium_LRS"
-  osType: "windows"
-  hyperVGeneration: "v2"
-  vmSize: "Standard_DS1_v2"
-  virtualMachineName: "easec-vm"
+  storageAccount: "snapshottestsa"
 
 stages:
 
-- stage: Convert_block_blobs_to_page_blobs
+- stage: Delete_blobs
   jobs:
   - job:
     steps:
@@ -59,6 +48,6 @@ stages:
          azureSubscription: 'MyAzureServiceConnection'
          scriptType: pscore
          scriptLocation: inlineScript
-         inlineScript: |
-          azcopy copy "$(source_blob_OsDisk_1_snap)" "$(destination_blob_OsDisk_1_snap)" --blob-type PageBlob
-          azcopy copy "$(source_blob_DataDisk_1_snap)" "$(destination_blob_DataDisk_1_snap)" --blob-type PageBlob
+         inlineScript: 
+          blobList=$(az storage blob list --query "[].name" --prefix $blobPrefix --account-name "$storageAccount)" --sas-token "$(token)" --output tsv)
+      #    az storage blob delete-batch --source $containerName --pattern bennett-[!2].* --account-name $storageAccount --sas-token "$(token)"
