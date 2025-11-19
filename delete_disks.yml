@@ -49,5 +49,5 @@ stages:
          scriptType: pscore
          scriptLocation: inlineScript
          inlineScript: 
-          blobList=$(az storage blob list --query "[].name" --account-name "$storageAccount)" --sas-token "$(token)" --output tsv)
-      #    az storage blob delete-batch --source $containerName --pattern bennett-[!2].* --account-name $storageAccount --sas-token "$(token)"
+          $blobList= az storage blob list --query "[].name" --account-name "$(storageAccount)" --sas-token "$(token)" --output tsv)
+          Write-Host $blobList
