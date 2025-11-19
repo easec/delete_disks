@@ -51,3 +51,4 @@ stages:
          scriptLocation: inlineScript
          inlineScript: 
           $blobList= az storage blob list --query "[].name" --account-name "$(storageAccount)" --container-name "$(containerName)" --sas-token "$(token)"
+          echo $(blobList)
