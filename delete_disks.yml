@@ -50,4 +50,4 @@ stages:
          scriptType: pscore
          scriptLocation: inlineScript
          inlineScript: 
-          az storage blob list --query "[].name" --account-name "$(storageAccount)" --container-name "$(containerName)" --sas-token "$(token)" -o tsv
+          $blobList = az storage blob list --query "[].name" --account-name "$(storageAccount)" --container-name "$(containerName)" --sas-token "$(token)" -o tsv
