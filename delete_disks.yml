@@ -36,6 +36,7 @@ variables:
   subscriptionId: "0ac447d7-fbc3-4d3d-84d4-37bb9a71e089"
   resourceGroupName: "snapshot-rg"
   storageAccount: "snapshottestsa"
+  containerName: "snapshot"
 
 stages:
 
@@ -49,5 +50,5 @@ stages:
          scriptType: pscore
          scriptLocation: inlineScript
          inlineScript: 
-          $blobList= az storage blob list --query "[].name" --account-name "$(storageAccount)" --sas-token "$(token)" --output tsv
+          $blobList= az storage blob list --query "[].name" --account-name "$(storageAccount)" --containerName --sas-token "$(token)" --output tsv
           Write-Host $blobList
